@@ -1,0 +1,4 @@
+<map id="ITask" name="ITask">
+<area shape="rect" id="node3" href="$class_task_function.html" title="A task that executes a function. " alt="" coords="5,161,179,189"/>
+<area shape="rect" id="node2" href="$class_i_message.html" title="Abstract class to be implemented to describe a Message that need to be executed. " alt="" coords="52,6,131,34"/>
+</map>
