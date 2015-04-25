@@ -8,5 +8,9 @@ The implementation satisfy the following requirements:
 - Fast and efficient.
 - No external dependencies, just pure C/C++.
 
-Implemented platforms:
+Supported platforms:
 - Posix (Linux, OSX, Unix...).
+
+###Links:
+- [GitHub pages](http://rressi.github.io/ThreadPool)
+- [Doxygen documentation](http://rressi.github.io/ThreadPool/html/index.html)
