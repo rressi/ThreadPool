@@ -1,7 +1,5 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.3)
 project(rr-thread-pool)
-
-ADD_DEFINITIONS(-std=c++11)
 
 include_directories(BEFORE src)
 
@@ -22,8 +20,8 @@ add_library(tp-lib OBJECT
     src/ThreadPool.h
     src/Trace.h)
 
-add_library(tp-doc OBJECT
-    doc/Documentation.h)
+add_library(tp-doc INTERFACE)
+target_sources(tp-doc INTERFACE doc/Documentation.h)
 
 add_executable(tp-ut
     $<TARGET_OBJECTS:tp-lib>
@@ -34,21 +32,14 @@ add_executable(tp-ut
     test/test_ThreadPool.cpp)
 
 
-FIND_PACKAGE(Doxygen)
-
-IF(DOXYGEN_FOUND)
-
-SET(DOXYGEN_INPUT Doxyfile)
-SET(DOXYGEN_OUTPUT html)
-
-ADD_CUSTOM_COMMAND(
-  OUTPUT ${DOXYGEN_OUTPUT}
-  COMMAND ${CMAKE_COMMAND} -E echo_append "Building API Documentation..."
-  COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_INPUT}
-  COMMAND ${CMAKE_COMMAND} -E echo "Done."
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  DEPENDS ${DOXYGEN_INPUT})
-
-ADD_CUSTOM_TARGET(doc ALL DEPENDS ${DOXYGEN_OUTPUT})
-
-ENDIF(DOXYGEN_FOUND)
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+	               ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+	               @ONLY)
+	add_custom_target(doc
+	                  ${DOXYGEN_EXECUTABLE}
+					  ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+					  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+					  COMMENT "Generating API documentation with Doxygen" VERBATIM)
+endif(DOXYGEN_FOUND)
