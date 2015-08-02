@@ -32,9 +32,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "Cond.h"
 #include "Trace.h"
 
-#include <pthread.h>
-#include <sched.h>
-#include <sys/types.h>
+//#include <pthread.h>
+//#include <sched.h>
+//#include <sys/types.h>
 
 // -----------------------------------------------------------------------------
 
@@ -54,18 +54,18 @@ struct ThreadInfo
 
 class ThreadRegister
 {
-    pthread_key_t m_key;
+    //pthread_key_t m_key;
 
 public:
 
     ThreadRegister()
     {
-        ::pthread_key_create(&m_key, destroy_object);
+        //::pthread_key_create(&m_key, destroy_object);
     }
 
     ~ThreadRegister()
     {
-        ::pthread_key_delete(m_key);
+        //::pthread_key_delete(m_key);
     }
 
     void register_object(Thread thread);
@@ -108,7 +108,7 @@ class ThreadPosix
 
     };
 
-    pthread_t m_thread;
+    //pthread_t m_thread;
     volatile bool m_running;
 
 public:
@@ -118,7 +118,7 @@ public:
     {
         if (fetch_self)
         {
-            m_thread = ::pthread_self();
+            //m_thread = ::pthread_self();
             m_running = true;
         }
     }
@@ -128,26 +128,26 @@ public:
     {
         assert(self.get() == this);
 
-        pthread_attr_t attr;
-        ::pthread_attr_init(&attr);
-        ::pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+        //pthread_attr_t attr;
+        //::pthread_attr_init(&attr);
+        //::pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
         {
             InitData init_data(self, task, m_running);
             Locker<Mutex> lock(init_data.m_mutex);
 
-            ::pthread_create(&m_thread, &attr, run_thread, &init_data);
+            //::pthread_create(&m_thread, &attr, run_thread, &init_data);
 
             init_data.m_cond.wait(init_data.m_mutex);
         }
 
-        ::pthread_attr_destroy(&attr);
+        //::pthread_attr_destroy(&attr);
     }
 
     virtual
     ~ThreadPosix()
     {
-        if (m_thread != ::pthread_self())
+        if (false) //if (m_thread != ::pthread_self())
         {
             join();
         }
@@ -162,20 +162,20 @@ public:
     virtual void
     join()
     {
-        assert(m_thread != ::pthread_self());
-        ::pthread_join(m_thread, nullptr);
+        //assert(m_thread != ::pthread_self());
+        //::pthread_join(m_thread, nullptr);
     }
 
     virtual void yield() const
     {
-        assert(m_thread == ::pthread_self());
-        ::sched_yield();
+        //assert(m_thread == ::pthread_self());
+        //::sched_yield();
     }
 
     virtual void *
     handle()
     {
-        return reinterpret_cast< void *>( m_thread );
+		return nullptr; //reinterpret_cast<void *>(m_thread);
     }
 
 private:
@@ -241,7 +241,7 @@ IThread::self()
 void
 ThreadRegister::register_object(Thread thread)
 {
-    ::pthread_setspecific(m_key, new ThreadInfo(thread));
+    //::pthread_setspecific(m_key, new ThreadInfo(thread));
 }
 
 // -----------------------------------------------------------------------------
@@ -249,17 +249,17 @@ ThreadRegister::register_object(Thread thread)
 Thread
 ThreadRegister::current()
 {
-    void *opaque = pthread_getspecific(m_key);
+	void *opaque = nullptr; //pthread_getspecific(m_key);
     if (opaque != nullptr)
     {
         ThreadInfo *info = reinterpret_cast< ThreadInfo * >( opaque );
         assert(info != nullptr);
-        return info->m_thread;
+		return nullptr; // info->m_thread;
     }
 
     Thread thread(new ThreadPosix(true));
-    ::pthread_setspecific(m_key, new ThreadInfo(thread));
-    assert(pthread_getspecific(m_key) != nullptr);
+    // ::pthread_setspecific(m_key, new ThreadInfo(thread));
+    // assert(pthread_getspecific(m_key) != nullptr);
 
     return thread;
 }

@@ -83,7 +83,7 @@ public:
             while (0 == m_out_queue.push(response.str()))
             {
                 trace("Waiting for a free slot into the output queue");
-                sched_yield();
+                //sched_yield();
             }
         }
 
@@ -143,7 +143,7 @@ test_MessageQueue()
                 }
                 else
                 {
-                    sched_yield();
+                    //sched_yield();
                 }
             }
 
@@ -162,7 +162,7 @@ test_MessageQueue()
                 }
                 else
                 {
-                    sched_yield();
+                    //sched_yield();
                 }
             }
         }

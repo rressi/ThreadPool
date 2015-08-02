@@ -31,7 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // ------------------------------------------------------------------------
 
-#include <pthread.h>
+// #include <pthread.h>
 
 class CondPosix
         : public ICond
@@ -41,12 +41,12 @@ public:
 
     CondPosix()
     {
-        ::pthread_cond_init(&m_cond, nullptr);
+        // ::pthread_cond_init(&m_cond, nullptr);
     }
 
     virtual ~CondPosix()
     {
-        ::pthread_cond_destroy(&m_cond);
+        // ::pthread_cond_destroy(&m_cond);
     }
 
     void
@@ -54,33 +54,33 @@ public:
     {
         assert(mutex != nullptr);
 
-        pthread_mutex_t *mutex_handle =
-                reinterpret_cast< pthread_mutex_t * >(mutex->handle());
+        //pthread_mutex_t *mutex_handle =
+        //        reinterpret_cast< pthread_mutex_t * >(mutex->handle());
 
-        ::pthread_cond_wait(&m_cond, mutex_handle);
+        //::pthread_cond_wait(&m_cond, mutex_handle);
     }
 
     void
     signal()
     {
-        pthread_cond_signal(&m_cond);
+        //pthread_cond_signal(&m_cond);
     }
 
     void
     broadcast()
     {
-        pthread_cond_broadcast(&m_cond);
+        //pthread_cond_broadcast(&m_cond);
     }
 
     virtual void *
     handle()
     {
-        return &m_cond;
+		return nullptr; //  &m_cond;
     }
 
 private:
 
-    pthread_cond_t m_cond;
+    //pthread_cond_t m_cond;
 
 };
 

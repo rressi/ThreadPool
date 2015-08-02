@@ -154,7 +154,7 @@ test_ThreadPool()
             }
             else
             {
-                sched_yield();
+                //sched_yield();
             }
         }
 
@@ -169,7 +169,7 @@ test_ThreadPool()
             }
             else
             {
-                sched_yield();
+                //sched_yield();
             }
         }
 

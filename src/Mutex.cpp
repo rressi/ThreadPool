@@ -31,7 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // ------------------------------------------------------------------------
 
-#include <pthread.h>
+//#include <pthread.h>
 
 class MutexPosixImpl
         : public IMutex
@@ -41,36 +41,36 @@ public:
 
     MutexPosixImpl()
     {
-        ::pthread_mutex_init(&m_mutex, nullptr);
+        //::pthread_mutex_init(&m_mutex, nullptr);
     }
 
     virtual
     ~MutexPosixImpl()
     {
-        ::pthread_mutex_destroy(&m_mutex);
+        //::pthread_mutex_destroy(&m_mutex);
     }
 
     virtual void
     lock()
     {
-        ::pthread_mutex_lock(&m_mutex);
+        //::pthread_mutex_lock(&m_mutex);
     }
 
     virtual void
     unlock()
     {
-        ::pthread_mutex_unlock(&m_mutex);
+        //::pthread_mutex_unlock(&m_mutex);
     }
 
     virtual void *
     handle()
     {
-        return &m_mutex;
+		return nullptr; // &m_mutex;
     }
 
 private:
 
-    pthread_mutex_t m_mutex;
+    //pthread_mutex_t m_mutex;
 
 };
 
