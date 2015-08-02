@@ -34,7 +34,7 @@ add_executable(tp-ut
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
-	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.i
 	               ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
 	               @ONLY)
 	add_custom_target(doc
